@@ -1,0 +1,252 @@
+---
+title: "Descriptive Analysis of Police Deaths in America from Jan 1791 - Jul 2022"
+author: "Kelechi Ogbogu"
+date: '2022-08-22'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+**Importing my dataset for the analysis**
+```{r}
+police_deaths_df <- read_csv("C:\\Users\\Kelechi\\Documents\\PoliceDeaths.csv")
+```
+**To view the imported dataset**
+```{r}
+view(police_deaths_df)
+```
+
+**To get a view of my dataframe type**
+```{r}
+class(police_deaths_df)
+```
+
+## Data Cleaning and Preparation
+
+**To get a view of the variable types**
+```{r}
+glimpse(police_deaths_df)
+```
+**Remove Weekday names from date column and format column as date data type**
+**Loading Relevant Packages**
+```{r}
+library(tidyr)
+```
+```{r}
+library(lubridate)
+```
+**To extract weekday name**
+```{r}
+PoliceDeaths_df <- separate(police_deaths_df, col = Date,into = c("Weekday","Death_date"), sep = ",", extra = "merge")
+head(PoliceDeaths_df)
+```
+
+**To change chr to date**
+```{r}
+Police_Deaths_df <- PoliceDeaths_df%>%
+  mutate(Death_date = mdy(Death_date))
+head(Police_Deaths_df)
+```
+**To check if my Weekday column and day column contain the same values**
+```{r}
+all(Police_Deaths_df$Weekday == Police_Deaths_df$Day)
+```
+**To delete my Weekday column by column number**
+```{r}
+Police_Deaths_df[ -c(4) ]
+```
+**Checking for Duplicate rows**
+```{r}
+Police_Deaths_df[duplicated(Police_Deaths_df), ]
+```
+**To check for null values**
+```{r}
+Police_Deaths_df%>%
+  filter(!complete.cases(.))
+```
+## Descriptive Data Analysis
+**To check for unique values in Cause of Death column**
+```{r}
+unique(Police_Deaths_df$Cause_of_Death)
+```
+
+**To find police death by cause of death**
+1. group by Cause of death
+2. order in descending
+3. filter to see just top five
+```{r}
+library(dplyr)
+```
+```{r}
+by_death_cause <- Police_Deaths_df%>%
+  group_by(Cause_of_Death)%>%
+  summarise(death_count=n())
+```
+```{r}
+top_death_causes <- by_death_cause%>%
+  arrange(desc(death_count))%>%
+  filter(death_count >= 1002)
+top_death_causes
+```
+**To plot Police Deaths by cause**
+**Installing ggplot2**
+```{r}
+library(ggplot2)
+```
+```{r, echo=TRUE}
+ggplot(data=top_death_causes, aes(x = reorder(Cause_of_Death, -death_count), y = death_count, fill = death_count))+
+  geom_bar(stat = "identity")+
+  theme(legend.position = "none")+
+  labs(x="Cause of death", y="Total Deaths")+
+  labs(title= "Top Five Causes of Police Deaths in America")+
+  labs(subtitle = "Displayed in descending order of total deaths")
+```
+Gunfire is the highest cause of Police Death in United States
+
+**To show police deaths by states**
+```{r}
+death_by_states <- Police_Deaths_df%>%
+  group_by(State)%>%
+  summarise(total_deaths =n())
+death_by_states
+```
+**Plotting the death by state in a map**
+```{r}
+library(usmap)
+```
+**To remove all locations that are not American states**
+**I did this because when I tried to create a new column that will contain abbrevations using the built in function, it didn't because the number of states in my data is higher than the number of states in the built in function and therefore doesn't correspond**
+```{r}
+death_by_us_states <- death_by_states%>%
+  filter(State != "American Samoa" & State != "Guam" & State != "Northern Mariana Islands" & State != "Panama" & State != "Puerto Rico" & State != "U.S. Virgin Islands" & State !="United States")
+  
+death_by_us_states
+```
+```{r}
+death_by_us_states$fips <- statepop$fips
+death_by_us_states$abbr <- statepop$abbr
+death_by_us_states
+```
+
+```{r,echo=TRUE}
+plot_usmap(data = death_by_us_states, values = "total_deaths", labels = TRUE)+
+  scale_fill_gradient(low = "grey", high = "blue", name = NULL)+
+  labs(title = "Distribution of Police Deaths Across US states")+
+  theme(plot.title = element_text(size = 20))+
+  labs(subtitle = "Showing total police deaths in different states from January,1791 - July,2022")
+```
+Texas, New York and California have the highest rate of Police Deaths in America.
+**Showing Total Deaths by Rank**
+```{r}
+deaths_by_rank <- Police_Deaths_df%>%
+  group_by(Rank)%>%
+  summarise(total_deaths=n())
+
+top_death_by_rank <- deaths_by_rank%>%
+  arrange(desc(total_deaths))%>%
+filter(total_deaths > 1000)
+top_death_by_rank
+```
+**To plot the five ranks whith the highest number of Police Deaths**
+```{r, echo=TRUE}
+ggplot(data=top_death_by_rank, aes(x = reorder(Rank, -total_deaths), y = total_deaths))+
+  geom_bar(stat = "identity", fill = "navy")+
+  theme(legend.position = "none")+
+  labs(x="Rank", y="Total Deaths")+
+  labs(title= "Top Five Ranks with the Highest Police Deaths in America")+
+  labs(subtitle = "Displayed in descending order of total deaths")
+```
+The Patrolman, Police officer and Deputy Sheriff have the highest rate of Police Deaths in America.
+
+**Showing the Ten Department with the Highest Police Deaths**
+```{r}
+deaths_by_department <- Police_Deaths_df%>%
+  group_by(Department)%>%
+  summarise(total_deaths=n())
+deaths_by_department
+
+max_deaths_by_dept <- deaths_by_department%>%
+  arrange(desc(total_deaths))%>%
+  filter(total_deaths >=147)
+max_deaths_by_dept
+```
+The Patrolman, Police officer and Deputy Sheriff have the highest rate of Police Deaths in America.
+
+**Plotting a chart to show deaths by department **
+```{r}
+library(ggeasy)
+```
+```{r, echo=TRUE}
+ggplot(data=max_deaths_by_dept, aes(x = reorder(Department, total_deaths), y = total_deaths))+
+  geom_bar(stat = "identity", fill = "navy")+
+  coord_flip()+ #To change from vertical to horizontal
+  labs(x="Department", y="Total Deaths")+
+  theme(axis.text.x = element_text(angle = 360))+
+  labs(title= "Top Ten Department with the Highest Police Deaths in America")+
+  labs(subtitle = "Displayed in descending order of total deaths")
+```
+
+**Showing Deaths by Year**
+```{r}
+death_by_year <- Police_Deaths_df%>%
+  group_by(Year)%>%
+  summarise(total_deaths = n())
+
+max_deaths_by_Year <- death_by_year%>%
+  arrange(desc(total_deaths))%>%
+  filter(total_deaths >= 310)
+max_deaths_by_Year
+```
+**Plotting deaths by year**
+```{r}
+ggplot(data=max_deaths_by_Year, aes(x = reorder(Year, -total_deaths), y = total_deaths))+
+  geom_bar(stat = "identity", fill = "brown")+
+  labs(x="Year", y="Total Deaths")+
+  labs(title= "Top Ten Years with the Highest Police Deaths in America")+
+  labs(subtitle = "Displayed in descending order of total deaths")
+```
+**To see the major causes of deaths in 2021 to help understand the increase in the number of recorded deaths**
+```{r}
+death_cause_21 <- Police_Deaths_df%>%
+  filter(Year == 2021)%>%
+  group_by(Cause_of_Death)%>%
+  summarise(total_deaths_2021 = n())%>%
+  arrange(desc(total_deaths_2021))
+death_cause_21
+```
+The highest cause of death in 2021 is COVID 19
+
+**Checking for 2020 which has the second highest death rate**
+```{r}
+death_cause_20 <- Police_Deaths_df%>%
+  filter(Year == 2020)%>%
+  group_by(Cause_of_Death)%>%
+  summarise(total_deaths_2020 = n())%>%
+  arrange(desc(total_deaths_2020))
+death_cause_20
+```
+The highest cause of death in 2020 is COVID19
+
+**To see the number of deaths from K9 unit**
+```{r}
+no_of_K9deaths <- Police_Deaths_df%>%
+  summarise(K9_unit_deaths = sum(K9_Unit))
+print(no_of_K9deaths)
+```
+**To see the major causes of deaths in K9 unit**
+```{r}
+K9_deaths_causes <- PoliceDeaths_df%>%
+  filter(Rank=="K9")%>%
+  group_by(Cause_of_Death)%>%
+  summarise(total_K9_deaths = n())%>%
+  arrange(desc(total_K9_deaths))
+K9_deaths_causes
+```
+
+## THE END
