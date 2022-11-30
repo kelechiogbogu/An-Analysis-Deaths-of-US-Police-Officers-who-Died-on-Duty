@@ -22,6 +22,26 @@ After importing my data, I spent some time to understand the dataset. It contain
 
 3. FINDINGS
 
-After performing my exploratory analysis,  I found out that a total of over 26000 cases were recorded, and 50% of the recorded cases were caused by gunfire 
+After performing my exploratory analysis,  I found out that a total of over 26000 cases were recorded, and 50% of the recorded cases were caused by gunfire, followed by automobile crash, heart attack, motor cycle crash and vehicular attack. These five causes account for over 70% of deaths recorded in our data set. 
+
+![Police 1](https://user-images.githubusercontent.com/95935148/204861182-ba564a7d-09e6-48cf-9634-3a83737e5175.PNG)
+
+I also noticed an unsual increase in the number of deaths recorded in year 2020 and 2021. It was shown that this increased was caused by the global pandemic COVID-19
+
+The ranks that have recorded the most deaths are Patrolman, Police Officer and Deputy Sherrif.
+
+![Police 4](https://user-images.githubusercontent.com/95935148/204866670-c7ea9c66-14e1-4367-a070-eaa2314d2f23.PNG)
+
+The states with the highest record of death and gunfire are Texas, New York and Califonia. 
+
+![Police 3](https://user-images.githubusercontent.com/95935148/204868074-af620052-d8f4-4e70-9150-fd7628cace38.PNG)
+
+
+
+
+
+
+
+
 
 
