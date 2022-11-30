@@ -1,3 +1,27 @@
 # Police Deaths in America
+## Table of Contents 
+#### -Introduction
+#### -Data Cleaning and Preparation
+#### -Findings
+#### -Recommendations
 
-In this project, R Programming Language was used to performed a Descriptive Analysis of Police Deaths that have occured in America from January, 1791 - July, 2022.
+1. INTRODUCTION
+
+The issue of Police Death is one of the numerous topics that is often overlooked or given less attention. Mr Christopher Wray who is the Director of the Federal Bureau of Investigation, in a recent interview with the British Broadcasting Corporation stated that violence against the police is a phenomenon that doesn't get enough attention. The Police is an important part of the Law Enforcement Agencies in the Society as they play a huge role in bringing and maintaining order in the society. They are responsible for detection and prevention of crimes. Every Society needs the police because without them, the society will be hit with a lot of social vices.
+As in the nature of their job, most times the police are exposed to numerous dangers which in some cases lead to their death. 
+
+This project is therefore carried out to analyse the issues surrounding the Deaths of Police officers with focus on US Police Officers who died in the line of Duty. 
+
+For this project, R Programming Language was used to perform a Descriptive Analysis of Police Deaths that have occured in America from January, 1791 - August, 2022. At the end of the Analysis, recommendations were made based on the insights gotten.
+
+The dataset used for this analysis was provided by Mayuresh Koli and made available on Kaggle.
+
+2. DATA CLEANING AND PREPARATION
+
+After importing my data, I spent some time to understand the dataset. It contains 10 columns providing information like the Rank of the Victims, Name, Cause_of_Death, Date of Death etc. I  checked for data quality issues such as missing data,  duplication of information and then I ensured that the all values are formatted correctly. 
+
+3. FINDINGS
+
+After performing my exploratory analysis,  I found out that a total of over 26000 cases were recorded, and 50% of the recorded cases were caused by gunfire 
+
+
