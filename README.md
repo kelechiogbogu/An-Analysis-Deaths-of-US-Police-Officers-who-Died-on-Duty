@@ -41,10 +41,8 @@ The states with the highest record of death and gunfire are Texas, New York and 
 
 - The issuance of license to firearms should be done with strict background check. Before a person is allowed to own a gun, there should be a thorough check of his past activities, his mental health state etc.
 - There should be a strict law against unliscensed firearm dealers. These laws should be strictly implemented because unwanted gun dealers make it very easy for people with the wrong motives to get guns. Most times, all these dealers care about is money, they release guns to people as long as they are willing to pay.
-- Automobile and Motorcycle crash are also part of the top causes of police death in the US. 
-- Regular Routine check ups should be provided and made compulsory for every member of the Police, this will help uncover any underlying health challenge that may lead to heart attack.
-- Texas, New York and Califonia 
-
+- Automobile and Motorcycle crashes are also part of the top causes of police death in the US. A little search on the internet revaeled distraction as the major cause of this. 
+- Opportunities and platforms for regular check ups should be provided and made compulsory for every member of the Police, this will help uncover any underlying health challenge that may lead to heart attack.
 
 
 
